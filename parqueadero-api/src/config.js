@@ -3,7 +3,6 @@
 
 
 export default {
-    port: process.env.PORT || 3000,
     dbuser: process.env.DB_USER || "root",
     dbpassword: process.env.DB_PASSWORD || 'root',
     dbhost: process.env.DB_HOST || "localhost",
