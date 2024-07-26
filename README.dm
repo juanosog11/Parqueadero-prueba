@@ -1,3 +1,43 @@
+
+Parqueadero Front 
+
+## Requisitos Previos
+
+Asegúrate de tener instalado lo siguiente en tu sistema:
+
+- [Node.js](https://nodejs.org/) (versión 14 o superior)
+- [npm](https://www.npmjs.com/) (que se instala automáticamente con Node.js)
+
+Instalación
+	Clona el repositorio o descarga el proyecto.
+
+Navega a la carpeta ./parqueadero-api/ en tu terminal.
+
+Ejecuta el siguiente comando para instalar las dependencias necesarias:
+
+	npm install
+
+Ejecuta la Front en modo desarrollo:
+
+	npm run dev
+
+
+La interface es intuitiva con los nombres de cada uno de los botones.
+
+Ingresar vehiculo
+
+Ingresar la placa y el tipo, dar al boton y quedara ingresado.
+
+Esta el boton de mostrar todos los vehiculos.
+
+El buscar, busca un vehiculo en especifico por su placa para modificarlo o registrar si salida.
+
+Cupos
+
+En la parte de cupos esta el boton de modificar y elimincar como tambien puedes insertar llenando los campos que se te piden.
+
+
+
 Parqueadero API
 
 Este proyecto es una API para gestionar un sistema de parqueadero utilizando Node.js y MySQL.
@@ -152,49 +192,3 @@ Ejemplo
 
 
 
-
-Parqueadero Front 
-
-## Requisitos Previos
-
-Asegúrate de tener instalado lo siguiente en tu sistema:
-
-- [Node.js](https://nodejs.org/) (versión 14 o superior)
-- [npm](https://www.npmjs.com/) (que se instala automáticamente con Node.js)
-
-Instalación
-	Clona el repositorio o descarga el proyecto.
-
-Navega a la carpeta ./parqueadero-api/ en tu terminal.
-
-Ejecuta el siguiente comando para instalar las dependencias necesarias:
-
-	npm install
-
-Ejecuta la Front en modo desarrollo:
-
-	npm run dev
-
-
-La interface es intuitiva con los nombres de cada uno de los botones.
-
-Ingresar vehiculo
-
-Ingresar la placa y el tipo, dar al boton y quedara ingresado.
-
-Esta el boton de mostrar todos los vehiculos.
-
-El buscar, busca un vehiculo en especifico por su placa para modificarlo o registrar si salida.
-
-Cupos
-
-En la parte de cupos esta el boton de modificar y elimincar como tambien puedes insertar llenando los campos que se te piden.
-
-
-
-
-
-
-
-
-	
