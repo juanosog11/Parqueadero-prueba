@@ -10,8 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-console.log(swaggerUi , specs)
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/api", vehiculos);
