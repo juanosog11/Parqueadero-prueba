@@ -90,8 +90,6 @@ const postCupos = async (req, res) => {
 };
 
 
-
-
 const patchCupos = async (req, res) => {
     const { id } = req.params;
     const { tipo, total_cupos, cupos_ocupados } = req.body;

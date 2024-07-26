@@ -1,5 +1,6 @@
 import { pool } from "../db.js";
 
+
 export const ping = async (req, res) => {
     try {
         // Ejecuta la consulta

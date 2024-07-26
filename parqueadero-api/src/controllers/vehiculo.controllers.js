@@ -1,5 +1,8 @@
 import { pool } from "../db.js";
 
+
+
+
 const getVehiculos = async (req, res) => {
     try {
         const  [rows]  = await pool.query("SELECT * FROM vehiculo");
@@ -11,6 +14,7 @@ const getVehiculos = async (req, res) => {
     }
 
 }
+
 
 const getVehiculo = async (req, res) => {
     try {
@@ -25,6 +29,7 @@ const getVehiculo = async (req, res) => {
     }
 
 }
+
 
 const postVehiculos = async (req, res) => {
     const { placa, tipo } = req.body;
@@ -93,6 +98,7 @@ const patchVehiculos = async (req, res) => {
         res.status(500).json({ message: "Fallo al actualizar el vehículo en la base de datos" });
     }
 };
+
 
 const deleteVehiculos = async (req, res) => {    
     try {

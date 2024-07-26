@@ -10,9 +10,6 @@ function IngresoAutosPage() {
     const [vehiculoEncontrado, setVehiculoEncontrado] = useState(null);
     const [vehiculos, setVehiculos] = useState([]); // Nuevo estado para almacenar la lista de vehículos
 
-    const [newCupoTipo, setNewCupoTipo] = useState('');
-    const [newCupoTotal, setNewCupoTotal] = useState('');
-
     useEffect(() => {
         const fetchTipos = async () => {
             try {
@@ -70,17 +67,6 @@ function IngresoAutosPage() {
         }
     };
 
-    const handleSubmitCupo = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:3000/api/cupo', { tipo: newCupoTipo, total_cupos: newCupoTotal });
-            console.log('Cupo agregado:', response.data);
-            setNewCupoTipo('');
-            setNewCupoTotal('');
-        } catch (error) {
-            console.error('Error adding cupo:', error);
-        }
-    };
 
     const buscarVehiculo = async () => {
         try {
