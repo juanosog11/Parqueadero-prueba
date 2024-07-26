@@ -8,12 +8,12 @@ function IngresoAutosPage() {
     const [selectedTipo, setSelectedTipo] = useState('');
     const [cupos, setCupos] = useState([]);
     const [vehiculoEncontrado, setVehiculoEncontrado] = useState(null);
+    const [vehiculos, setVehiculos] = useState([]); // Nuevo estado para almacenar la lista de vehículos
 
     const [newCupoTipo, setNewCupoTipo] = useState('');
     const [newCupoTotal, setNewCupoTotal] = useState('');
 
     useEffect(() => {
-        // Fetch vehicle types from the backend
         const fetchTipos = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/api/cupo/tipo');
@@ -23,7 +23,6 @@ function IngresoAutosPage() {
             }
         };
 
-        // Fetch cupos from the backend
         const fetchCupos = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/api/cupo');
@@ -37,17 +36,37 @@ function IngresoAutosPage() {
         fetchCupos();
     }, []);
 
+    // Nueva función para obtener todos los vehículos
+    const fetchVehiculos = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/api/vehiculos'); // Asegúrate de que esta ruta sea correcta
+            setVehiculos(response.data);
+        } catch (error) {
+            console.error('Error fetching vehiculos:', error);
+        }
+    };
+
     const handleSubmitVehiculo = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:3000/api/vehiculos', { placa, tipo: selectedTipo });
             console.log('Vehículo agregado:', response.data);
-            alert(response.data.message)
-            // Reset form fields after successful submission
+            alert(response.data.message);
             setPlaca('');
             setSelectedTipo('');
         } catch (error) {
             console.error('Error adding vehículo:', error);
+        }
+    };
+
+    const eliminarCupo = async (id) => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/api/cupo/${id}`);
+            console.log('Cupo eliminado:', response.data);
+            setCupos(cupos.filter(cupo => cupo.id !== id));
+        } catch (error) {
+            console.error('Error eliminando cupo:', error);
+            alert("Ocurrió un error al eliminar el cupo: " + error.response.data.message);
         }
     };
 
@@ -56,7 +75,6 @@ function IngresoAutosPage() {
         try {
             const response = await axios.post('http://localhost:3000/api/cupo', { tipo: newCupoTipo, total_cupos: newCupoTotal });
             console.log('Cupo agregado:', response.data);
-            // Reset form fields after successful submission
             setNewCupoTipo('');
             setNewCupoTotal('');
         } catch (error) {
@@ -70,6 +88,7 @@ function IngresoAutosPage() {
             setVehiculoEncontrado(response.data);
         } catch (error) {
             console.error('Error buscando vehículo:', error);
+            alert("Ocurrió un error: " + error.response.data.message);
             setVehiculoEncontrado(null);
         }
     };
@@ -116,6 +135,13 @@ function IngresoAutosPage() {
                             Ingresar Vehículo
                         </button>
                     </form>
+                    {/* Botón para visualizar vehículos */}
+                    <button
+                        onClick={fetchVehiculos}
+                        className="w-full bg-blue-500 text-white py-2 mt-4 rounded-md hover:bg-blue-600 transition duration-300"
+                    >
+                        Visualizar Vehículos
+                    </button>
                 </div>
 
                 {/* Lista de cupos */}
@@ -144,12 +170,17 @@ function IngresoAutosPage() {
                                                 Modificar Cupo
                                             </button>
                                         </Link>
+                                        <button
+                                            onClick={() => eliminarCupo(cupo.id)}
+                                            className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 transition duration-300"
+                                        >
+                                            Eliminar Cupo
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
-                    {/* Botón para ingresar nuevo cupo */}
                     <div className="mt-4 text-center">
                         <Link to="/ingresar-cupo">
                             <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300">
@@ -173,68 +204,44 @@ function IngresoAutosPage() {
                     />
                     <button
                         onClick={buscarVehiculo}
-                        className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+                        className="ml-2 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
                     >
                         Buscar
                     </button>
                 </div>
                 {vehiculoEncontrado && (
-                    <div>
-                        <h3 className="text-lg font-semibold">Vehículo Encontrado:</h3>
+                    <div className="mt-4">
+                        <h3 className="font-semibold">Vehículo Encontrado:</h3>
                         <p>Placa: {vehiculoEncontrado.placa}</p>
                         <p>Tipo: {vehiculoEncontrado.tipo}</p>
-                        <div className="mt-4">
-                            <Link to={`/modificar-vehiculo/${vehiculoEncontrado.placa}`}>
-                                <button className="bg-green-500 text-white px-4 py-1 rounded-md mr-2 hover:bg-green-600 transition duration-300">
-                                    Modificar Vehículo
-                                </button>
-                            </Link>
-
-                            <button className="bg-red-500 text-white px-4 py-1 rounded-md hover:bg-red-600 transition duration-300">
-                                Registrar Salida
-                            </button>
-                        </div>
                     </div>
                 )}
             </div>
 
-            {/* Formulario para ingresar nuevo cupo */}
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md mt-6" style={{ display: 'none' }}>
-                <h1 className="text-2xl font-semibold mb-6 text-center">Ingresar Nuevo Cupo</h1>
-                <form onSubmit={handleSubmitCupo}>
-                    <div className="mb-4">
-                        <label htmlFor="cupoTipo" className="block text-gray-700 font-medium mb-2">Tipo:</label>
-                        <input
-                            type="text"
-                            id="cupoTipo"
-                            value={newCupoTipo}
-                            onChange={(e) => setNewCupoTipo(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="cupoTotal" className="block text-gray-700 font-medium mb-2">Total de Cupos:</label>
-                        <input
-                            type="number"
-                            id="cupoTotal"
-                            value={newCupoTotal}
-                            onChange={(e) => setNewCupoTotal(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                    </div>
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
-                    >
-                        Ingresar Cupo
-                    </button>
-                </form>
-            </div>
+            {/* Lista de vehículos visualizados */}
+            {vehiculos.length > 0 && (
+                <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-5xl mt-6">
+                    <h2 className="text-xl font-semibold mb-6 text-center">Lista de Vehículos</h2>
+                    <table className="min-w-full bg-white">
+                        <thead>
+                            <tr>
+                                <th className="py-2 px-4 border-b">Placa</th>
+                                <th className="py-2 px-4 border-b">Tipo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {vehiculos.map((vehiculo) => (
+                                <tr key={vehiculo.id}>
+                                    <td className="py-2 px-4 border-b">{vehiculo.placa}</td>
+                                    <td className="py-2 px-4 border-b">{vehiculo.tipo}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
         </div>
     );
 }
 
 export default IngresoAutosPage;
-

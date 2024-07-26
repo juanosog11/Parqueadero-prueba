@@ -10,6 +10,8 @@ router.get('/cupo/tipo', Cupo.getCuposTipo)
 
 router.get('/cupo/:id', Cupo.getCupo)
 
+router.get('/cupo/tipo/:tipo', Cupo.getCupoTipo);
+
 router.post('/cupo', Cupo.postCupos)
 
 router.patch('/cupo/:id', Cupo.patchCupos)

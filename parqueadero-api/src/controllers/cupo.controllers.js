@@ -37,6 +37,22 @@ const getCupo = async (req, res) => {
 
 }
 
+const getCupoTipo = async (req, res) => {
+    try {
+        const [rows] = await pool.query("SELECT * FROM Cupo WHERE tipo = ?", [req.params.tipo]);
+        console.log(req.params.tipo);
+        console.log(rows.length);
+
+        if (rows.length === 0) return res.status(404).json({ message: 'Datos no encontrados' });
+
+        res.json(rows[0]);
+    } catch (error) {
+        console.error("Error al obtener el Cupo por tipo:", error);
+        res.status(500).json({ message: "Fallo al obtener el Cupo de la base de datos" });
+    }
+}
+
+
 const postCupos = async (req, res) => {
     const { tipo, total_cupos, cupos_ocupados } = req.body;
 
@@ -172,5 +188,5 @@ const deleteCuposTipo = async (req, res) => {
 };
 
 
-export const Cupo = { getCupos, getCupo, patchCupos, postCupos, deleteCupos, patchCuposTipo,deleteCuposTipo,getCuposTipo }
+export const Cupo = { getCupos, getCupo, patchCupos, postCupos, deleteCupos, patchCuposTipo,deleteCuposTipo,getCuposTipo,getCupoTipo }
 

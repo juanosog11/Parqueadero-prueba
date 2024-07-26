@@ -12,7 +12,8 @@ function IngresarCupoPage() {
         try {
             const response = await axios.post('http://localhost:3000/api/cupo', {
                 tipo: newCupoTipo,
-                total_cupos: newCupoTotal
+                total_cupos: newCupoTotal,
+                cupos_ocupados: 0
             });
             console.log('Cupo agregado:', response.data);
             // Redirigir a la página de ingreso de autos o donde desees después de agregar el cupo
